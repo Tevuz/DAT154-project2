@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAT154-project2", "DAT154-project2\DAT154-project2.csproj", "{CF29C0AE-0824-432E-9531-9D30DA6825C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
