@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{CF29C0AE-0824-432E-9531-9D30DA6825C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceModel", "SpaceModel\SpaceModel.csproj", "{D3C62B39-8413-44F3-9A05-787B8B6ABDC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF29C0AE-0824-432E-9531-9D30DA6825C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C62B39-8413-44F3-9A05-787B8B6ABDC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C62B39-8413-44F3-9A05-787B8B6ABDC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C62B39-8413-44F3-9A05-787B8B6ABDC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C62B39-8413-44F3-9A05-787B8B6ABDC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
