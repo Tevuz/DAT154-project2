@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using no.hvl.DAT154.V23.GROUP14.SpaceModel.graphics;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel.model;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
@@ -33,20 +32,5 @@ public class Model
     public StellarBody? find(string name)
     {
         return objects.TryGetValue(name, out var value) ? value : null;
-    }
-
-    public void render(GraphicsAPI graphics, long time, Action<StellarBody, Exception>? onException)
-    {
-        foreach (var body in objects)
-        {
-            try
-            {
-                body.render(graphics, time);
-            }
-            catch (Exception e)
-            {
-                onException?.Invoke(body, e);
-            }
-        }
     }
 }
