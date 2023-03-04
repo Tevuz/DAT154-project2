@@ -6,10 +6,12 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Model
 {
-
+    
+    private Dictionary<string, StellarBody> objects;
+    
     public Model()
     {
-        objects = new Collection<StellarBody>();
+        objects = new Dictionary<string, StellarBody>();
     }
     
     public static Model LoadFromFile(string filename)
@@ -17,12 +19,20 @@ public class Model
         // TODO: implement loading Excel (.xlsx) or comma-separated values (.txt)
         throw new NotImplementedException();
     }
-    
-    private Collection<StellarBody> objects;
 
-    public void addObject(StellarBody body)
+    public void add(StellarBody element)
     {
-        objects.Add(body);
+        objects.Add(element.name, element);
+    }
+
+    public bool remove(StellarBody element)
+    {
+        return objects.Remove(element.name);
+    }
+
+    public StellarBody? find(string name)
+    {
+        return objects.TryGetValue(name, out var value) ? value : null;
     }
 
     public void render(GraphicsAPI graphics, long time, Action<StellarBody, Exception>? onException)
