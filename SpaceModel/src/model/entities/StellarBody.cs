@@ -2,12 +2,11 @@
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel.model;
 
-public abstract class StellarBody
-{
-    protected StellarBody parent;
+public abstract class StellarBody {
+    protected double orbital_period;
 
     protected double orbital_radius;
-    protected double orbital_period;
+    protected StellarBody parent;
 
     public abstract void render(GraphicsAPI graphics, long time);
 

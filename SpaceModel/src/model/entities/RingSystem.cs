@@ -1,15 +1,14 @@
-﻿using no.hvl.DAT154.V23.GROUP14.SpaceModel.graphics;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using no.hvl.DAT154.V23.GROUP14.SpaceModel.graphics;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel.model;
 
-public class RingSystem : StellarBody
-{
-    private Collection<SphericalBody> ring_objects;
-    private string name;
+public class RingSystem : StellarBody {
+    private readonly string name;
+    private readonly Collection<SphericalBody> ring_objects;
 
     public RingSystem(string name) {
-        this.ring_objects = new Collection<SphericalBody>();
+        ring_objects = new Collection<SphericalBody>();
         this.name = name;
     }
 
@@ -21,10 +20,8 @@ public class RingSystem : StellarBody
         ring_objects.Add(body);
     }
 
-    public override void render(GraphicsAPI graphics, long time)
-    {
+    public override void render(GraphicsAPI graphics, long time) {
         // TODO: 
         throw new NotImplementedException();
     }
-
 }

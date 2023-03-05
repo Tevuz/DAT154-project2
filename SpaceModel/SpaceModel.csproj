@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Planets.csv" />
+        <None Remove="Planets.csv"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Planets.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Include="Planets.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
