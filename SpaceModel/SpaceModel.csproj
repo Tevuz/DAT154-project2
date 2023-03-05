@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Planets.csv"/>
+        <None Remove="Planets.csv" />
     </ItemGroup>
 
     <ItemGroup>
