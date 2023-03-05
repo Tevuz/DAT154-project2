@@ -17,6 +17,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SpaceModel\SpaceModel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Page Update="src\MainWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>

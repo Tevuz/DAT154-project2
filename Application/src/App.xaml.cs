@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using no.hvl.DAT154.V23.GROUP14.SpaceModel;
 using System.Windows;
 
 namespace DAT154_project2
@@ -13,5 +8,8 @@ namespace DAT154_project2
     /// </summary>
     public partial class App : Application
     {
+        void App_Startup(object sender, StartupEventArgs e) {
+            Model.LoadFromFile("Planets.csv");
+        }
     }
 }

@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DAT154_project2"
-             StartupUri="/src/MainWindow.xaml">
+             StartupUri="/src/MainWindow.xaml"
+             Startup="App_Startup">
     <Application.Resources>
          
     </Application.Resources>

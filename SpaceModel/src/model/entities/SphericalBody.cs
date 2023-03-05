@@ -5,9 +5,23 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel.model;
 public class SphericalBody : StellarBody
 {
     private string name;
-    private double radius;
+    // private double radius;
     
     // TODO: Constructor
+    public SphericalBody(string name, double orbital_radius, double orbital_period) {
+        this.name = name;
+        // this.radius = radius;
+        this.orbital_radius = orbital_radius;
+        this.orbital_period = orbital_period;
+    }
+
+    public void setParent(StellarBody parent) {
+        this.parent = parent;
+    }
+
+    public override string getName() {
+        return name;
+    }
 
     public override void render(GraphicsAPI graphics, long time)
     {
@@ -23,6 +37,6 @@ public class SphericalBody : StellarBody
             fillColor = new Color() { r = 255, g = 255, b = 255 }
         };
         
-        graphics.drawCircle(center, radius, properties);
+        // graphics.drawCircle(center, radius, properties);
     }
 }
