@@ -10,4 +10,6 @@ public abstract class StellarBody
     protected double orbital_period;
 
     public abstract void render(GraphicsAPI graphics, long time);
+
+    public abstract string getName();
 }
