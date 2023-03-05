@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using no.hvl.DAT154.V23.GROUP14.SpaceModel.model;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Model
 {
+    internal float time;
     
     private Dictionary<string, StellarBody> objects;
     
@@ -19,9 +19,15 @@ public class Model
         throw new NotImplementedException();
     }
 
+    public void OnTick(float time)
+    {
+        this.time = time;
+    }
+
     public void add(StellarBody element)
     {
         objects.Add(element.name, element);
+        element.model = this;
     }
 
     public bool remove(StellarBody element)
