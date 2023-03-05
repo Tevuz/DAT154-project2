@@ -1,7 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.VisualBasic.FileIO;
-using no.hvl.DAT154.V23.GROUP14.SpaceModel.graphics;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
@@ -67,14 +65,5 @@ public class Model {
 
     public Entity? findObjectByName(string name) {
         return objects.TryGetValue(name, out Entity? entity) ? entity : null;
-    }
-
-    public void render(GraphicsAPI graphics, long time, Action<Entity, Exception>? onException) {
-        foreach (Entity entity in objects)
-            try {
-                entity.render(graphics, time);
-            } catch (Exception e) {
-                onException?.Invoke(entity, e);
-            }
     }
 }
