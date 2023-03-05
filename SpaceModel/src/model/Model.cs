@@ -7,10 +7,10 @@ using no.hvl.DAT154.V23.GROUP14.SpaceModel.model;
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Model {
-    private readonly Collection<StellarBody> objects;
+    private readonly Dictionary<string, StellarBody> objects;
 
     public Model() {
-        objects = new Collection<StellarBody>();
+        objects = new Dictionary<string, StellarBody>();
     }
 
     public static Model LoadFromFile(string filename) {
@@ -69,21 +69,15 @@ public class Model {
     }
 
     public bool addObject(StellarBody body) {
-        if (objects.Where(o => string.Equals(body.getName(), o.getName())).Count() > 0) 
-            return false;
-
-        objects.Add(body);
-        return true;
+        return objects.TryAdd(body.getName(), body);
     }
 
     public bool removeObject(StellarBody body) {
-        return objects.Remove(body);
+        return objects.Remove(body.getName());
     }
 
     public StellarBody? findObjectByName(string name) {
-        if (objects.Count() == 0) 
-            return null;
-        return objects.Where(o => string.Equals(name, o.getName())).First();
+        return objects.TryGetValue(name, out StellarBody? value) ? value : null;
     }
 
     public void render(GraphicsAPI graphics, long time, Action<StellarBody, Exception>? onException) {
