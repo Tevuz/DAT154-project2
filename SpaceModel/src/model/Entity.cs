@@ -12,7 +12,7 @@ public class Entity {
     private Vector3 _position;
 
     public Vector3 position {
-        get => getPosition(model.time);
+        get => getPosition();
         set => _position = value;
     }
 
@@ -31,21 +31,23 @@ public class Entity {
         return name;
     }
 
-    private Vector3 getPosition(float time) {
-
-        if (cacheTime == time)
+    private Vector3 getPosition() {
+        if (model == null)
             return _position;
-        cacheTime = time;
+
+        if (cacheTime == model.time)
+            return _position;
+        cacheTime = model.time;
         
         if (orbit == null) 
             return _position;
         Orbit o = orbit.Value;
 
-        float theta = 2.0f * float.Pi * time / o.period;
+        float theta = 2.0f * float.Pi * model.time / o.period;
         
-        position = o.origin?.getPosition(time) ?? Vector3.Zero + new Vector3() { X = o.distance * float.Sin(theta), Y = o.distance * float.Cos(theta), Z = 0.0f };
+        _position = o.origin?.position ?? Vector3.Zero + new Vector3() { X = o.distance * float.Sin(theta), Y = o.distance * float.Cos(theta), Z = 0.0f };
 
-        return position;
+        return _position;
     }
 }
 
