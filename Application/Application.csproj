@@ -9,23 +9,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ApplicationDefinition Include="src\App.xaml">
-            <Generator>MSBuild:Compile</Generator>
-            <XamlRuntime>Wpf</XamlRuntime>
-            <SubType>Designer</SubType>
-        </ApplicationDefinition>
+        <ProjectReference Include="..\SpaceModel\SpaceModel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SpaceModel\SpaceModel.csproj"/>
+      <ApplicationDefinition Include="src\main\App.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </ApplicationDefinition>
     </ItemGroup>
 
     <ItemGroup>
-        <Page Update="src\MainWindow.xaml">
-            <Generator>MSBuild:Compile</Generator>
-            <XamlRuntime>Wpf</XamlRuntime>
-            <SubType>Designer</SubType>
-        </Page>
+      <Page Update="src\gui\Window.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
 </Project>
