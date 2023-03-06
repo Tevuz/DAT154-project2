@@ -45,7 +45,7 @@ public class Entity {
 
         float theta = 2.0f * float.Pi * model.time / o.period;
         
-        _position = o.origin?.position ?? Vector3.Zero + new Vector3() { X = o.distance * float.Sin(theta), Y = o.distance * float.Cos(theta), Z = 0.0f };
+        _position = (o.origin?.position ?? Vector3.Zero) + new Vector3{ X = o.distance * float.Sin(theta), Y = o.distance * float.Cos(theta), Z = 0.0f };
 
         return _position;
     }
