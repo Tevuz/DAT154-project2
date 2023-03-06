@@ -1,10 +1,12 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.VisualBasic.FileIO;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Model {
     private readonly Dictionary<string, Entity> objects;
+    
+    internal float time;
 
     public Model() {
         objects = new Dictionary<string, Entity>();
@@ -54,8 +56,14 @@ public class Model {
 
         return model;
     }
-
+    
+    public void OnTick(float time)
+    {
+        this.time = time;
+    }
+    
     public bool addObject(Entity entity) {
+        entity.model = this;
         return objects.TryAdd(entity.getName(), entity);
     }
 
