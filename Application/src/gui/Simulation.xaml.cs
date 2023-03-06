@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Numerics;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
-using Type = no.hvl.DAT154.V23.GROUP14.SpaceModel.Type;
 
-namespace DAT154_project2.gui;
+namespace DAT154_project2.gui; 
 
 public partial class Simulation : Canvas {
     private readonly Model model;
@@ -16,7 +14,7 @@ public partial class Simulation : Canvas {
 
     public Simulation() {
         InitializeComponent();
-
+        
         // TODO: Instantiate model
         model = Model.LoadFromFile("Planets.csv");
 

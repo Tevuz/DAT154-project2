@@ -13,6 +13,8 @@ public class Entity {
 
     public Type? type;
 
+    public Type type;
+
     public Vector3 position {
         get => getPosition();
         set => _position = value;
