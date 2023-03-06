@@ -11,6 +11,8 @@ public class Entity {
     public Orbit? orbit;
     private Vector3 _position;
 
+    public Type type;
+
     public Vector3 position {
         get => getPosition();
         set => _position = value;
@@ -39,9 +41,8 @@ public class Entity {
             return _position;
         cacheTime = model.time;
         
-        if (orbit == null) 
+        if (!(orbit is Orbit o)) 
             return _position;
-        Orbit o = orbit.Value;
 
         float theta = 2.0f * float.Pi * model.time / o.period;
         
@@ -55,4 +56,10 @@ public struct Orbit {
     public Entity origin;
     public float distance;
     public float period;
+}
+
+public enum Type {
+    STAR,
+    GASGIANT,
+    TERRESTIAL,
 }

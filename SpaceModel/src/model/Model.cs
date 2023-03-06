@@ -60,6 +60,12 @@ public class Model {
     public void OnTick(float time) {
         this.time = time;
     }
+
+    public void ForEach(Action<Entity> action) {
+        foreach (Entity entity in objects.Values) {
+            action(entity);
+        }
+    }
     
     public bool addObject(Entity entity) {
         entity.model = this;
