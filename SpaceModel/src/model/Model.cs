@@ -57,8 +57,7 @@ public class Model {
         return model;
     }
     
-    public void OnTick(float time)
-    {
+    public void OnTick(float time) {
         this.time = time;
     }
     
