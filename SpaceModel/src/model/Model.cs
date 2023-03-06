@@ -31,20 +31,20 @@ public class Model {
 
             Entity parent = model.findObjectByName(row[1]);
 
-            double orbital_radius;
+            float orbital_distance;
             if (row[2].Equals("-"))
-                orbital_radius = 0;
+                orbital_distance = 0;
             else
-                orbital_radius = Convert.ToDouble(row[2]);
+                orbital_distance = Convert.ToSingle(row[2]);
 
-            double orbital_period;
+            float orbital_period;
             if (row[3].Equals("-"))
                 orbital_period = 0;
             else
-                orbital_period = Convert.ToDouble(row[3]);
+                orbital_period = Convert.ToSingle(row[3]);
 
-            Entity entity = new(name, orbital_radius, orbital_period);
-            entity.setParent(parent);
+            Entity entity = new(name);
+            entity.orbit = new Orbit { origin = parent, distance = orbital_distance, period = orbital_period };
 
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");

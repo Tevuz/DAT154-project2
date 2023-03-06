@@ -1,23 +1,26 @@
 ﻿namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Entity {
-    protected readonly string name;
-    protected double orbital_period;
+    public readonly string name;
 
-    protected double orbital_radius;
-    protected Entity parent;
-
-    public Entity(string name, double orbitalRadius, double orbitalPeriod) {
+    public Orbit? orbit;
+    
+    public Entity(string name) {
         this.name = name;
-        this.orbital_radius = orbitalRadius;
-        this.orbital_period = orbitalPeriod;
     }
-
-    public void setParent(Entity parent) {
-        this.parent = parent;
+    
+    public Entity(string name, Orbit? orbit) {
+        this.name = name;
+        this.orbit = orbit;
     }
 
     public string getName() {
         return name;
     }
+}
+
+public struct Orbit {
+    public Entity origin;
+    public float distance;
+    public float period;
 }
