@@ -15,29 +15,7 @@ public partial class Simulation : Canvas {
     public Simulation() {
         InitializeComponent();
         
-        // TODO: Instantiate model
-        model = Model.LoadFromFile("Planets.csv");
-
-        /*model = new Model();
-        model.addObject(new Entity("Star") {
-            type = Type.STAR
-        });
-        model.addObject(new Entity("Planet") {
-            type = Type.GASGIANT,
-            orbit = new Orbit {
-                origin = model.findObjectByName("star"),
-                distance = 150.0f,
-                period = 10.0f
-            }
-        });
-        model.addObject(new Entity("Moon") {
-            type = Type.TERRESTIAL,
-            orbit = new Orbit {
-                origin = model.findObjectByName("Planet"),
-                distance = 50.0f,
-                period = 1.0f
-            }
-        });*/
+        model = Model.LoadFromFile("res/Planets.csv");
 
         timer = new DispatcherTimer();
         timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
