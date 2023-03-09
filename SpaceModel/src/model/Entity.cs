@@ -5,37 +5,38 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 public class Entity {
     
     public readonly string name;
-    internal Model model;
+    internal Model? model;
     private double cacheTime;
+
 
     public Orbit? orbit;
     private Vector3 _position = Vector3.Zero;
+    
+    public int satallite_amount = 0;
 
     public Type? type;
 
-    public Type type;
-
     public Vector3 position {
-        get => getPosition();
+        get => getAbsolutePosition();
         set => _position = value;
     }
 
     public Entity(string name) {
         this.name = name;
-        _position = position;
+        getAbsolutePosition();
     }
     
     public Entity(string name, Orbit? orbit) {
         this.name = name;
         this.orbit = orbit;
-        _position = position;
+        getAbsolutePosition();
     }
 
     public string getName() {
         return name;
     }
 
-    private Vector3 getPosition() {
+    public Vector3 getAbsolutePosition() {
         if (model == null)
             return Vector3.Zero;
 
@@ -48,10 +49,22 @@ public class Entity {
 
         float theta = (o.period > 0.0) ? (2.0f * float.Pi * model.time / o.period) : 0.0f;
 
-        _position = (o.origin?.getPosition() ?? Vector3.Zero);
-        _position += new Vector3{ X = float.Sqrt(o.distance + 1.0f) * float.Sin(theta), Y = float.Sqrt(o.distance + 1.0f) * float.Cos(theta), Z = 0.0f } / 4.0f;
+        _position = (o.origin?.getAbsolutePosition() ?? Vector3.Zero);
+        _position += o.distance * new Vector3{ X = float.Sin(theta), Y = float.Cos(theta), Z = 0.0f };
 
         return _position;
+    }
+
+    public Vector3 getRelativePosition() {
+        if (model == null)
+            return Vector3.Zero;
+        
+        if (!(orbit is Orbit o))
+            return Vector3.Zero;
+
+        float theta = (o.period > 0.0) ? (2.0f * float.Pi * model.time / o.period) : 0.0f;
+
+        return o.distance * new Vector3() { X = float.Sin(theta), Y = float.Cos(theta), Z = 0.0f };
     }
 }
 
@@ -59,10 +72,13 @@ public struct Orbit {
     public Entity origin;
     public float distance;
     public float period;
+    public int index;
 }
 
 public enum Type {
     STAR,
-    GASGIANT,
-    TERRESTIAL,
+    GAS,
+    HABITABLE,
+    ROCK,
+    ICE
 }
