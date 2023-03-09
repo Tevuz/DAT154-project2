@@ -6,14 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-        <None Remove="Planets.csv" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Planets.csv">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
 </Project>

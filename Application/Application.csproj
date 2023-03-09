@@ -25,5 +25,15 @@
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
+    
+    <ItemGroup>
+        <None Remove="res\Planets.csv" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="res\Planets.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
 </Project>
