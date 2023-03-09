@@ -45,7 +45,10 @@ public class Model {
             else
                 orbital_period = Convert.ToSingle(row[3]);
 
-            Entity entity = new(name);
+            float radius = Convert.ToSingle(row[4]);
+            string color = row[5];
+
+            Entity entity = new(name, radius, color);
             entity.orbit = new Orbit { origin = parent, distance = orbital_distance, period = orbital_period };
 
             if (!model.addObject(entity)) 
