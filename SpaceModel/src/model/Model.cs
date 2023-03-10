@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Drawing;
 using Microsoft.VisualBasic.FileIO;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
@@ -36,6 +35,7 @@ public class Model {
 
             if (string.IsNullOrEmpty(row[column_name])) 
                 continue;
+            
 
             Entity entity = new Entity(row[column_name]) {
                 orbit = Orbit.Of(
@@ -43,7 +43,7 @@ public class Model {
                     float.TryParse(row[column_distance], out float distance) ? distance : 0.0f, 
                     float.TryParse(row[column_period], out float period) ? period : 0.0f),
                 radius = float.TryParse(row[column_radius], out float row4) ? row4 : 1.0f,
-                color = Enum.TryParse(row[column_color], out KnownColor knownColor) ? Color.FromKnownColor(knownColor) : Color.White,
+                color = row[column_color],
                 type = Enum.TryParse(row[column_type], out Type type) ? type : null
             };
 

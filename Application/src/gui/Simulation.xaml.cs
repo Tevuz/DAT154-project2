@@ -26,7 +26,7 @@ public partial class Simulation : Canvas {
     }
 
     private void OnTick(object? sender, EventArgs e) {
-        time += 1.0f / 60.0f;
+        time += 3600f * 1.0f / 60.0f;
 
         InvalidateVisual();
     }
@@ -38,7 +38,7 @@ public partial class Simulation : Canvas {
 
         model.ForEach(
             entity => {
-                float scale = 1.0f;
+                float scale = 0.0f;
                 float size = 500.0f;
                 
                 Vector3 pos = Vector3.Zero;
@@ -50,9 +50,10 @@ public partial class Simulation : Canvas {
                         pos += new Vector3() { X = float.Cos(theta), Y = float.Sin(theta), Z = 0.0f } * (size * scale * o.index + o.distance * (1.0f - scale));
                     }
                     e = (e.orbit?.origin ?? null)!;
-                } 
-
-                switch (entity.type) {
+                }
+                
+                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, new Point(pos.X, pos.Y), entity.radius * 0.00001f, entity.radius * 0.00001f);
+                /*switch (entity.type) {
                     case Type.STAR:
                         dc.DrawEllipse(Brushes.Yellow, null, new Point(pos.X, pos.Y), 6.0, 6.0);
                         break;
@@ -68,7 +69,7 @@ public partial class Simulation : Canvas {
                     default:
                         dc.DrawEllipse(Brushes.Gray, null, new Point(pos.X, pos.Y), 2.0, 2.0);
                         break;
-                }
+                }*/
             });
     }
 }

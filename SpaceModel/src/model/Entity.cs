@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Drawing;
 using System.Numerics;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
@@ -8,7 +7,7 @@ public class Entity {
     
     public readonly string name;
     public float radius;
-    public Color color;
+    public string color;
 
     public Orbit? orbit;
     
