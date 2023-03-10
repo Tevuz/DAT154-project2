@@ -7,6 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Background="Black"
-             MouseMove="MouseMoveEvent">
-    <TextBlock Name="debug"/>
+             MouseDown="Handler_MouseDown"
+             MouseMove="Handler_MouseMoved">
+    <TextBlock Name="debug" Foreground="White" Text="test"/>
 </Canvas>
