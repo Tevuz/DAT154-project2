@@ -5,6 +5,8 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 public class Entity {
     
     public readonly string name;
+    public readonly float radius;
+    public readonly string color;
     internal Model model;
     private double cacheTime;
 
@@ -16,13 +18,17 @@ public class Entity {
         set => _position = value;
     }
 
-    public Entity(string name) {
+    public Entity(string name, float radius, string color) {
         this.name = name;
+        this.radius = radius;
+        this.color = color;
         _position = position;
     }
     
-    public Entity(string name, Orbit? orbit) {
+    public Entity(string name, float radius, string color, Orbit? orbit) {
         this.name = name;
+        this.radius = radius;
+        this.color = color;
         this.orbit = orbit;
         _position = position;
     }
