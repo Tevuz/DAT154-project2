@@ -19,26 +19,37 @@ public class Model {
         parser.TextFieldType = FieldType.Delimited;
         parser.SetDelimiters(";");
 
+        const int column_name = 0;
+        const int column_orbits = 1;
+        const int column_distance = 2;
+        const int column_period = 3;
+        const int column_radius = 4;
+        const int column_color = 5;
+        const int column_type = 6;
+
+        {
+            // ignore first title line
+            string[] row = parser.ReadFields();
+        }
+
         while (!parser.EndOfData) {
             string[] row = parser.ReadFields();
 
-            string name = row[0];
-
-            // ignore first title line
-            if (string.Equals(name, "Name")) 
+            if (string.IsNullOrEmpty(row[column_name])) 
                 continue;
 
-            if (string.IsNullOrEmpty(name)) 
-                continue;
-
-            Entity entity = new Entity(name);
-            entity.radius = float.TryParse(row[4], out float row4) ? row4 : 1.0f;
-            entity.color = row[5];
+            Entity entity = new Entity(row[column_name]);
+            
             entity.orbit = Orbit.Of(
-                model.findObjectByName(row[1]), 
-                float.TryParse(row[2], out float row2) ? row2 : 0.0f, 
-                float.TryParse(row[3], out float row3) ? row3 : 0.0f);
-            entity.type = Enum.TryParse(row[6], out Type type) ? type : null;
+                model.findObjectByName(row[column_orbits]), 
+                float.TryParse(row[column_distance], out float distance) ? distance : 0.0f, 
+                float.TryParse(row[column_period], out float period) ? period : 0.0f);
+            
+            entity.radius = float.TryParse(row[column_radius], out float row4) ? row4 : 1.0f;
+            
+            entity.color = row[column_color];
+            
+            entity.type = Enum.TryParse(row[column_type], out Type type) ? type : null;
 
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
