@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Numerics;
-
-namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
+﻿namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Entity {
     
