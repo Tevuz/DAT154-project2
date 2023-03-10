@@ -48,8 +48,11 @@ public class Model {
             float radius = Convert.ToSingle(row[4]);
             string color = row[5];
 
-            Entity entity = new(name, radius, color);
+            Entity entity = new(name);
+            entity.radius = radius;
+            entity.color = color;
             entity.orbit = new Orbit { origin = parent, distance = orbital_distance, period = orbital_period };
+            entity.type = Enum.TryParse(row[6], out Type type) ? type : null;
 
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
@@ -67,11 +70,11 @@ public class Model {
     }
     
     public bool addObject(Entity entity) {
-        return objects.TryAdd(entity.getName(), entity);
+        return objects.TryAdd(entity.name, entity);
     }
 
     public bool removeObject(Entity entity) {
-        return objects.Remove(entity.getName());
+        return objects.Remove(entity.name);
     }
 
     public Entity? findObjectByName(string name) {

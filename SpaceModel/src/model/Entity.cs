@@ -5,8 +5,8 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 public class Entity {
     
     public readonly string name;
-    public readonly float radius;
-    public readonly string color;
+    public float radius;
+    public string color;
 
     public Orbit? orbit;
     
@@ -14,21 +14,8 @@ public class Entity {
 
     public Type? type;
 
-    public Entity(string name, float radius, string color) {
+    public Entity(string name) {
         this.name = name;
-        this.radius = radius;
-        this.color = color;
-    }
-    
-    public Entity(string name, float radius, string color, Orbit? orbit) {
-        this.name = name;
-        this.radius = radius;
-        this.color = color;
-        this.orbit = orbit;
-    }
-
-    public string getName() {
-        return name;
     }
 }
 
