@@ -39,21 +39,23 @@ public partial class Simulation : Canvas {
 
         model.ForEach(
             entity => {
-                float scale = 0.0f;
-                float size = 500.0f;
+                float scale = 1.0f;
+                float size = 2000.0f;
+
+                float radius = 5.0f + 0.0f * entity.radius * 0.0005f;
                 
                 Vector3 pos = Vector3.Zero;
                 Entity e = entity;
                 while (e != null) {
-                    pos *= (1.0f - 0.8f * scale);
+                    pos *= (1.0f - 0.98f * scale);
                     if (e.orbit is Orbit o) {
                         float theta = (o.period > 0.0) ? (2.0f * float.Pi * time / o.period) : 0.0f;
-                        pos += new Vector3() { X = float.Cos(theta), Y = float.Sin(theta), Z = 0.0f } * (size * scale * o.index + o.distance * (1.0f - scale));
+                        pos += new Vector3() { X = float.Cos(theta), Y = float.Sin(theta), Z = 0.0f } * (size * o.index * scale + o.distance * (1.0f - scale));
                     }
                     e = (e.orbit?.origin ?? null)!;
                 }
                 
-                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, new Point(pos.X, pos.Y), entity.radius * 0.00001f, entity.radius * 0.00001f);
+                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, new Point(pos.X, pos.Y), radius, radius);
                 /*switch (entity.type) {
                     case Type.STAR:
                         dc.DrawEllipse(Brushes.Yellow, null, new Point(pos.X, pos.Y), 6.0, 6.0);
