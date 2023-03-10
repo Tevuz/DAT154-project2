@@ -5,18 +5,25 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 public class Entity {
     
     public readonly string name;
+    public readonly float radius;
+    public readonly string color;
+
     public Orbit? orbit;
     
     public int satallite_amount = 0;
 
     public Type? type;
 
-    public Entity(string name) {
+    public Entity(string name, float radius, string color) {
         this.name = name;
+        this.radius = radius;
+        this.color = color;
     }
     
-    public Entity(string name, Orbit? orbit) {
+    public Entity(string name, float radius, string color, Orbit? orbit) {
         this.name = name;
+        this.radius = radius;
+        this.color = color;
         this.orbit = orbit;
     }
 

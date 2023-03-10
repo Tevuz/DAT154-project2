@@ -17,42 +17,39 @@ public class Model {
 
         TextFieldParser parser = new(filename);
         parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(",");
-
-        Dictionary<string, int> fields = new Dictionary<string, int> {
-            { "name", -1 },
-            { "type", -1 },
-            { "orbits", -1 },
-            { "orbital_distance", -1 },
-            { "orbital_period", -1 }
-        };
-
-        {
-            string[] row = parser.ReadFields();
-            foreach (string key in fields.Keys) {
-                fields[key] = Array.IndexOf(row, key);
-            }
-        }
+        parser.SetDelimiters(";");
 
         while (!parser.EndOfData) {
             string[] row = parser.ReadFields();
 
-            if (string.IsNullOrEmpty(row[fields["name"]])) 
+            string name = row[0];
+
+            // ignore first title line
+            if (string.Equals(name, "Name")) 
                 continue;
 
-            Entity entity = new(row[fields["name"]]);
+            if (string.IsNullOrEmpty(name)) 
+                continue;
 
-            entity.type = fields["type"] >= 0 && Enum.TryParse(row[fields["type"]].ToUpper(), out Type type) ? type : Type.ROCK;
+            Entity parent = model.findObjectByName(row[1]);
 
-            Entity? orbits = fields["orbits"] >= 0 ? model.findObjectByName(row[fields["orbits"]]) : null;
-            if (orbits != null) {
-                entity.orbit = new Orbit() {
-                    origin = orbits,
-                    distance = fields["orbital_distance"] >= 0 && float.TryParse(row[fields["orbital_distance"]], out float distance) ? distance : 0,
-                    period = fields["orbital_period"] >= 0 && float.TryParse(row[fields["orbital_period"]], out float period) ? period : 0,
-                    index = orbits.satallite_amount++
-                };
-            }
+            float orbital_distance;
+            if (row[2].Equals("-"))
+                orbital_distance = 0;
+            else
+                orbital_distance = Convert.ToSingle(row[2]);
+
+            float orbital_period;
+            if (row[3].Equals("-"))
+                orbital_period = 0;
+            else
+                orbital_period = Convert.ToSingle(row[3]);
+
+            float radius = Convert.ToSingle(row[4]);
+            string color = row[5];
+
+            Entity entity = new(name, radius, color);
+            entity.orbit = new Orbit { origin = parent, distance = orbital_distance, period = orbital_period };
 
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
