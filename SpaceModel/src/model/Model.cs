@@ -5,8 +5,6 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Model {
     private readonly Dictionary<string, Entity> objects;
-    
-    internal float time;
 
     public Model() {
         objects = new Dictionary<string, Entity>();
@@ -38,18 +36,15 @@ public class Model {
             if (string.IsNullOrEmpty(row[column_name])) 
                 continue;
 
-            Entity entity = new Entity(row[column_name]);
-            
-            entity.orbit = Orbit.Of(
-                model.findObjectByName(row[column_orbits]), 
-                float.TryParse(row[column_distance], out float distance) ? distance : 0.0f, 
-                float.TryParse(row[column_period], out float period) ? period : 0.0f);
-            
-            entity.radius = float.TryParse(row[column_radius], out float row4) ? row4 : 1.0f;
-            
-            entity.color = row[column_color];
-            
-            entity.type = Enum.TryParse(row[column_type], out Type type) ? type : null;
+            Entity entity = new Entity(row[column_name]) {
+                orbit = Orbit.Of(
+                    model.findObjectByName(row[column_orbits]), 
+                    float.TryParse(row[column_distance], out float distance) ? distance : 0.0f, 
+                    float.TryParse(row[column_period], out float period) ? period : 0.0f),
+                radius = float.TryParse(row[column_radius], out float row4) ? row4 : 1.0f,
+                color = row[column_color],
+                type = Enum.TryParse(row[column_type], out Type type) ? type : null
+            };
 
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
