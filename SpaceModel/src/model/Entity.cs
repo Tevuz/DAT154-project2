@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.ComponentModel;
+using System.Numerics;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
@@ -17,6 +18,7 @@ public class Entity {
     public Entity(string name) {
         this.name = name;
     }
+
 }
 
 public struct Orbit {
@@ -24,7 +26,20 @@ public struct Orbit {
     public float distance;
     public float period;
     public int index;
+    
+    public static Orbit? Of(Entity? origin, float distance, float period) {
+        if (origin == null)
+            return null;
+
+        return new Orbit() {
+            origin = origin,
+            distance = distance,
+            period = period,
+            index = origin.satallite_amount++
+        };
+    }
 }
+
 
 public enum Type {
     STAR,

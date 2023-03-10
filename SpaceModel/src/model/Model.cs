@@ -31,19 +31,13 @@ public class Model {
             if (string.IsNullOrEmpty(name)) 
                 continue;
 
-            Entity parent = model.findObjectByName(row[1]);
-
-            float orbital_distance = float.TryParse(row[2], out float row2) ? row2 : 0.0f;
-
-            float orbital_period = float.TryParse(row[3], out float row3) ? row3 : 0.0f;
-
-            float radius = Convert.ToSingle(row[4]);
-            string color = row[5];
-
-            Entity entity = new(name);
-            entity.radius = radius;
-            entity.color = color;
-            entity.orbit = new Orbit { origin = parent, distance = orbital_distance, period = orbital_period };
+            Entity entity = new Entity(name);
+            entity.radius = float.TryParse(row[4], out float row4) ? row4 : 1.0f;
+            entity.color = row[5];
+            entity.orbit = Orbit.Of(
+                model.findObjectByName(row[1]), 
+                float.TryParse(row[2], out float row2) ? row2 : 0.0f, 
+                float.TryParse(row[3], out float row3) ? row3 : 0.0f);
             entity.type = Enum.TryParse(row[6], out Type type) ? type : null;
 
             if (!model.addObject(entity)) 
