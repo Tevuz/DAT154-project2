@@ -33,17 +33,9 @@ public class Model {
 
             Entity parent = model.findObjectByName(row[1]);
 
-            float orbital_distance;
-            if (row[2].Equals("-"))
-                orbital_distance = 0;
-            else
-                orbital_distance = Convert.ToSingle(row[2]);
+            float orbital_distance = float.TryParse(row[2], out float row2) ? row2 : 0.0f;
 
-            float orbital_period;
-            if (row[3].Equals("-"))
-                orbital_period = 0;
-            else
-                orbital_period = Convert.ToSingle(row[3]);
+            float orbital_period = float.TryParse(row[3], out float row3) ? row3 : 0.0f;
 
             float radius = Convert.ToSingle(row[4]);
             string color = row[5];
