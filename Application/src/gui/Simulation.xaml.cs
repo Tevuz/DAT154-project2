@@ -5,7 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
-using Type = no.hvl.DAT154.V23.GROUP14.SpaceModel.Type;
+using SpaceModel.model;
+using Type = SpaceModel.model.Type;
 
 namespace DAT154_project2.gui; 
 

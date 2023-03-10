@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using Microsoft.VisualBasic.FileIO;
+using SpaceModel.model;
+using Type = SpaceModel.model.Type;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
