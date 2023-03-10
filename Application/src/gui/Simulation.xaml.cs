@@ -26,9 +26,7 @@ public partial class Simulation : Canvas {
     }
 
     private void OnTick(object? sender, EventArgs e) {
-        time += 365.0f * 24.0f * 1.0f / 60.0f;
-
-        model.OnTick(time);
+        time += 1.0f / 60.0f;
 
         InvalidateVisual();
     }
@@ -40,10 +38,20 @@ public partial class Simulation : Canvas {
 
         model.ForEach(
             entity => {
-                Vector3 pos = entity.getRelativePosition();
-                pos *= (entity.orbit?.index + 1.0f ?? 1.0f) / pos.Length();
-                pos += entity.orbit?.origin.getAbsolutePosition() ?? Vector3.Zero;
+                float scale = 1.0f;
+                float size = 500.0f;
                 
+                Vector3 pos = Vector3.Zero;
+                Entity e = entity;
+                while (e != null) {
+                    pos *= (1.0f - 0.8f * scale);
+                    if (e.orbit is Orbit o) {
+                        float theta = (o.period > 0.0) ? (2.0f * float.Pi * time / o.period) : 0.0f;
+                        pos += new Vector3() { X = float.Cos(theta), Y = float.Sin(theta), Z = 0.0f } * (size * scale * o.index + o.distance * (1.0f - scale));
+                    }
+                    e = (e.orbit?.origin ?? null)!;
+                } 
+
                 switch (entity.type) {
                     case Type.STAR:
                         dc.DrawEllipse(Brushes.Yellow, null, new Point(pos.X, pos.Y), 6.0, 6.0);
@@ -63,4 +71,10 @@ public partial class Simulation : Canvas {
                 }
             });
     }
+}
+
+public class SimulationProperties {
+    public Transform transform;
+
+    public float timeStep = 365.0f * 24.0f;
 }

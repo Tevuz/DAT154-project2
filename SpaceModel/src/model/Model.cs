@@ -62,10 +62,6 @@ public class Model {
 
         return model;
     }
-    
-    public void OnTick(float time) {
-        this.time = time;
-    }
 
     public void ForEach(Action<Entity> action) {
         foreach (Entity entity in objects.Values) {
@@ -74,7 +70,6 @@ public class Model {
     }
     
     public bool addObject(Entity entity) {
-        entity.model = this;
         return objects.TryAdd(entity.getName(), entity);
     }
 
