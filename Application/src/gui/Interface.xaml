@@ -5,8 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DAT154_project2.gui"
              mc:Ignorable="d"
-             d:DesignHeight="*" d:DesignWidth="200">
+             d:DesignHeight="*" d:DesignWidth="200"
+             FontSize="14"
+             Foreground="White">
     <Grid Width="200" HorizontalAlignment="Right" Background="#202020">
-        <TextBlock Text="Settings" Foreground="White" Margin="5"/>
+        <StackPanel Margin="5">
+            <TextBlock Text="Settings" Foreground="White" Margin="5"/>
+            
+            <TextBlock Text="Planet Scale"/>
+            <Grid>
+                <TextBlock TextAlignment="Left" Text="Uniform"/>
+                <TextBlock TextAlignment="Right" Text="Realistic"/>
+            </Grid>
+            <Slider Name="slider_planet_scale" ValueChanged="SliderChanged"/>
+            <TextBlock/>
+    
+            <TextBlock Text="Distance Scale"/>
+            <Grid>
+                <TextBlock TextAlignment="Left" Text="Uniform"/>
+                <TextBlock TextAlignment="Right" Text="Realistic"/>
+            </Grid>
+            <Slider Name="slider_distance_scale" ValueChanged="SliderChanged"/>
+            <TextBlock/>
+        </StackPanel>
     </Grid>
 </UserControl>

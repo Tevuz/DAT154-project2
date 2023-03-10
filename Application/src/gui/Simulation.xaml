@@ -6,5 +6,7 @@
              xmlns:local="clr-namespace:DAT154_project2.gui"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Background="Black">
+             Background="Black"
+             MouseMove="MouseMoveEvent">
+    <TextBlock Name="debug"/>
 </Canvas>

@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
@@ -12,6 +13,8 @@ public partial class Simulation : Canvas {
     private readonly Model model;
     private float time;
     private readonly DispatcherTimer timer;
+
+    private float x, y;
 
     public Simulation() {
         InitializeComponent();
@@ -25,7 +28,7 @@ public partial class Simulation : Canvas {
     }
 
     private void OnTick(object? sender, EventArgs e) {
-        time += 3600f * 1.0f / 60.0f;
+        time += 24f * 1.0f / 60.0f;
 
         InvalidateVisual();
     }
@@ -34,6 +37,7 @@ public partial class Simulation : Canvas {
         base.OnRender(dc);
 
         dc.PushTransform(new TranslateTransform(ActualWidth * 0.5, ActualHeight * 0.5));
+        dc.PushTransform(new TranslateTransform(x, y));
 
         model.ForEach(
             entity => {
@@ -73,6 +77,15 @@ public partial class Simulation : Canvas {
                 }*/
             });
     }
+
+    private void MouseMoveEvent(object sender, MouseEventArgs e) {
+        if (e.LeftButton == MouseButtonState.Pressed) {
+            this.x += (float) e.GetPosition(null).X;
+            this.y += (float) e.GetPosition(null).Y;
+        }
+            
+    }
+
 }
 
 public class SimulationProperties {
