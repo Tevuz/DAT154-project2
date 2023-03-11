@@ -1,11 +1,11 @@
-﻿using System.Numerics;
+﻿using no.hvl.DAT154.V23.GROUP14.SpaceModel.math;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Entity {
     
     public readonly string name;
-    public float radius;
+    public double radius;
     public string color;
 
     public Orbit? orbit;
@@ -14,7 +14,7 @@ public class Entity {
 
     public Type? type;
 
-    public Vector3 position;
+    public Vector3d position;
 
     public Entity(string name) {
         this.name = name;
@@ -24,11 +24,11 @@ public class Entity {
 
 public struct Orbit {
     public Entity origin;
-    public float distance;
-    public float period;
+    public double distance;
+    public double period;
     public int index;
     
-    public static Orbit? Of(Entity? origin, float distance, float period) {
+    public static Orbit? Of(Entity? origin, double distance, double period) {
         if (origin == null)
             return null;
 

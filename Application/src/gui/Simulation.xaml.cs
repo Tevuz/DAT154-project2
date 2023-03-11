@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
+using no.hvl.DAT154.V23.GROUP14.SpaceModel.math;
 
 namespace DAT154_project2.gui; 
 
@@ -14,8 +15,8 @@ public partial class Simulation : Canvas {
     private readonly Model model;
     private float time;
 
-    private Vector2 mouse;
-    private Vector3 view;
+    private Vector3d mouse;
+    private Vector3d view;
 
     public Simulation() {
         InitializeComponent();
@@ -27,7 +28,7 @@ public partial class Simulation : Canvas {
         timer.Tick += OnTick;
         timer.Start();
 
-        view = Vector3.UnitZ;
+        view = Vector3d.UNIT_Z;
     }
 
     private void OnTick(object? sender, EventArgs e) {
@@ -35,13 +36,13 @@ public partial class Simulation : Canvas {
         
         model.ForEach(
             entity => {
-                entity.position = Vector3.Zero;
+                entity.position = Vector3d.ZERO;
                 if (entity.orbit is not Orbit orbit)
                     return;
                 
                 entity.position = orbit.origin.position;
-                float theta = (orbit.period > 0.0) ? (2.0f * float.Pi * time / orbit.period) : 0.0f;
-                entity.position += new Vector3(float.Cos(theta), float.Sin(theta), 0.0f) * orbit.distance;
+                double theta = (orbit.period > 0.0) ? (2.0 * double.Pi * time / orbit.period) : 0.0;
+                entity.position += new Vector3d(double.Cos(theta), double.Sin(theta), 0.0) * orbit.distance;
             });
 
         InvalidateVisual();
@@ -57,19 +58,19 @@ public partial class Simulation : Canvas {
                 float scale = 0.0f;
                 float size = 2000.0f;
 
-                float radius = entity.radius * view.Z;
+                double radius = entity.radius / view.z;
                 
-                Point p;
+                Vector3d p;
 
                 if (entity.orbit is Orbit orbit) {
-                    p = new Point((orbit.origin.position.X + view.X) *view.Z, (orbit.origin.position.Y + view.Y) * view.Z);
-                    dc.DrawEllipse(null, new Pen(Brushes.Yellow, 1.0f), p, orbit.distance * view.Z, orbit.distance * view.Z);
+                    p = ((orbit.origin.position + view) / view.z);
+                    dc.DrawEllipse(null, new Pen(Brushes.Yellow, 1.0f), new Point(p.x, p.y), orbit.distance / view.z, orbit.distance / view.z);
                 }
 
-                p = new Point((entity.position.X + view.X) * view.Z, (entity.position.Y + view.Y) * view.Z);
-                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, p, radius, radius);
+                p = ((entity.position + view) / view.z);
+                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, new Point(p.x, p.y), radius, radius);
                 
-                dc.DrawEllipse(null, new Pen(Brushes.White, 1.0f), p, radius + 3.0f, radius + 3.0f);
+                dc.DrawEllipse(null, new Pen(Brushes.White, 1.0f), new Point(p.x, p.y), radius + 3.0f, radius + 3.0f);
                 /*switch (entity.type) {
                     case Type.STAR:
                         dc.DrawEllipse(Brushes.Yellow, null, new Point(pos.X, pos.Y), 6.0, 6.0);
@@ -90,9 +91,9 @@ public partial class Simulation : Canvas {
             });
     }
 
-    public void Handler_MouseDown(object sender, MouseEventArgs e) {
+    private void Handler_MouseDown(object sender, MouseEventArgs e) {
         Point point = e.GetPosition(null);
-        mouse = new Vector2((float) point.X, (float) point.Y);
+        mouse = new Vector3d(point.X, point.Y, 0.0);
     }
 
     private void Handler_MouseMoved(object sender, MouseEventArgs e) {
@@ -100,14 +101,15 @@ public partial class Simulation : Canvas {
             return;
 
         Point point = e.GetPosition(null);
-        Vector2 next = new((float) point.X, (float) point.Y);
-        view += new Vector3((next - mouse) / view.Z, 0.0f);
+        Vector3d next = new(point.X, point.Y, 0.0);
+        view += (next - mouse) * view.z;
         mouse = next;
+        debug.Text = $"{view.x}, {view.y}, {view.z}";
     }
 
     private void Handle_MouseWheel(object sender, MouseWheelEventArgs e) {
-        view.Z *= float.Exp(e.Delta / 800.0f);
-        debug.Text = $"{view.Z}";
+        view.z *= float.Exp(-e.Delta / 800.0f);
+        debug.Text = $"{view.x}, {view.y}, {view.z}";
     }
 }
 

@@ -40,9 +40,9 @@ public class Model {
             Entity entity = new Entity(row[column_name]) {
                 orbit = Orbit.Of(
                     model.findObjectByName(row[column_orbits]), 
-                    float.TryParse(row[column_distance], out float distance) ? distance : 0.0f, 
-                    float.TryParse(row[column_period], out float period) ? period : 0.0f),
-                radius = float.TryParse(row[column_radius], out float radius) ? (radius * 0.001f) : 1.0f,
+                    double.TryParse(row[column_distance], out double distance) ? distance : 0.0, 
+                    double.TryParse(row[column_period], out double period) ? period : 0.0),
+                radius = double.TryParse(row[column_radius], out double radius) ? (radius * 0.001) : 1.0,
                 color = row[column_color],
                 type = Enum.TryParse(row[column_type], out Type type) ? type : null
             };
