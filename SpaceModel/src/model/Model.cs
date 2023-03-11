@@ -42,7 +42,7 @@ public class Model {
                     model.findObjectByName(row[column_orbits]), 
                     float.TryParse(row[column_distance], out float distance) ? distance : 0.0f, 
                     float.TryParse(row[column_period], out float period) ? period : 0.0f),
-                radius = float.TryParse(row[column_radius], out float row4) ? row4 : 1.0f,
+                radius = float.TryParse(row[column_radius], out float radius) ? (radius * 0.001f) : 1.0f,
                 color = row[column_color],
                 type = Enum.TryParse(row[column_type], out Type type) ? type : null
             };
