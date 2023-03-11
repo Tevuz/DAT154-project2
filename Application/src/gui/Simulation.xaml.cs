@@ -93,10 +93,14 @@ public partial class Simulation : Canvas {
 
         Point point = e.GetPosition(null);
         Vector2 next = new((float) point.X, (float) point.Y);
-        view += new Vector3((next - mouse) * view.Z, 0.0f);
+        view += new Vector3((next - mouse) / view.Z, 0.0f);
         mouse = next;
     }
 
+    private void Handle_MouseWheel(object sender, MouseWheelEventArgs e) {
+        view.Z *= float.Exp(e.Delta / 800.0f);
+        debug.Text = $"{view.Z}";
+    }
 }
 
 public class SimulationProperties {

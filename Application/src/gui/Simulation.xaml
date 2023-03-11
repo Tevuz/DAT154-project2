@@ -8,6 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Background="Black"
              MouseDown="Handler_MouseDown"
-             MouseMove="Handler_MouseMoved">
+             MouseMove="Handler_MouseMoved"
+             MouseWheel="Handle_MouseWheel">
     <TextBlock Name="debug" Foreground="White" Text="test"/>
 </Canvas>
