@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
-using Vector = System.Windows.Vector;
 
 namespace DAT154_project2.gui; 
 
@@ -32,7 +31,18 @@ public partial class Simulation : Canvas {
     }
 
     private void OnTick(object? sender, EventArgs e) {
-        time += 3600f * 1.0f / 60.0f;
+        time += 1.0f * 7.0f / 60.0f;
+        
+        model.ForEach(
+            entity => {
+                entity.position = Vector3.Zero;
+                if (entity.orbit is not Orbit orbit)
+                    return;
+                
+                entity.position = orbit.origin.position;
+                float theta = (orbit.period > 0.0) ? (2.0f * float.Pi * time / orbit.period) : 0.0f;
+                entity.position += new Vector3(float.Cos(theta), float.Sin(theta), 0.0f) * orbit.distance;
+            });
 
         InvalidateVisual();
     }
@@ -41,27 +51,25 @@ public partial class Simulation : Canvas {
         base.OnRender(dc);
 
         dc.PushTransform(new TranslateTransform(ActualWidth * 0.5, ActualHeight * 0.5));
-        dc.PushTransform(new TranslateTransform(view.X, view.Y));
 
         model.ForEach(
             entity => {
-                float scale = 1.0f;
+                float scale = 0.0f;
                 float size = 2000.0f;
 
-                float radius = 5.0f + 0.0f * entity.radius * 0.0005f;
+                float radius = entity.radius * view.Z;
                 
-                Vector3 pos = Vector3.Zero;
-                Entity e = entity;
-                while (e != null) {
-                    pos *= (1.0f - 0.98f * scale);
-                    if (e.orbit is Orbit o) {
-                        float theta = (o.period > 0.0) ? (2.0f * float.Pi * time / o.period) : 0.0f;
-                        pos += new Vector3() { X = float.Cos(theta), Y = float.Sin(theta), Z = 0.0f } * (size * o.index * scale + o.distance * (1.0f - scale));
-                    }
-                    e = (e.orbit?.origin ?? null)!;
+                Point p;
+
+                if (entity.orbit is Orbit orbit) {
+                    p = new Point((orbit.origin.position.X + view.X) *view.Z, (orbit.origin.position.Y + view.Y) * view.Z);
+                    dc.DrawEllipse(null, new Pen(Brushes.Yellow, 1.0f), p, orbit.distance * view.Z, orbit.distance * view.Z);
                 }
+
+                p = new Point((entity.position.X + view.X) * view.Z, (entity.position.Y + view.Y) * view.Z);
+                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, p, radius, radius);
                 
-                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, new Point(pos.X, pos.Y), radius, radius);
+                dc.DrawEllipse(null, new Pen(Brushes.White, 1.0f), p, radius + 3.0f, radius + 3.0f);
                 /*switch (entity.type) {
                     case Type.STAR:
                         dc.DrawEllipse(Brushes.Yellow, null, new Point(pos.X, pos.Y), 6.0, 6.0);
