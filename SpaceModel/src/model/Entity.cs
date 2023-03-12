@@ -19,14 +19,12 @@ public class Entity {
     public Entity(string name) {
         this.name = name;
     }
-
 }
 
 public struct Orbit {
     public Entity origin;
     public double distance;
     public double period;
-    public int index;
     
     public static Orbit? Of(Entity? origin, double distance, double period) {
         if (origin == null)
@@ -35,8 +33,7 @@ public struct Orbit {
         return new Orbit() {
             origin = origin,
             distance = distance,
-            period = period,
-            index = origin.satallite_amount++
+            period = period
         };
     }
 }
