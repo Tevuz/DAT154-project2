@@ -27,7 +27,10 @@ public partial class Interface : UserControl {
 
         time_slider.Value = time_day_log;
 
-        Loaded += (_, _) => { Properties.PropertyChanged += Follow_Changed; };
+        Loaded += (_, _) => {
+            Properties.PropertyChanged += Follow_Changed;
+            Properties.PropertyChanged += Selected_Changed;
+        };
     }
 
 
@@ -176,24 +179,76 @@ public partial class Interface : UserControl {
         if (Properties == null)
             return;
         
-        Properties.follow = new Entity(box.Text);
+        Properties.follow = (box.Text, null);
     }
     
     private void Follow_Changed(object? sender, PropertyChangedEventArgs e) {
         if (e.PropertyName != nameof(Properties.follow))
             return;
 
-        if (Properties.follow == null || string.IsNullOrEmpty(Properties.follow.name)) {
+        follow_display.Children.Clear();
+        follow_display.Margin = new Thickness(10, 0, 10, 0);
+        
+        if (string.IsNullOrEmpty(Properties.follow.Item1)) {
             follow_input.Background = Brushes.White;
             return;
         }
-
-        if (Properties.follow.type == null) {
+        
+        Entity follow = Properties.follow.Item2;
+        
+        if (follow == null) {
             follow_input.Background = Brushes.LightCoral;
             return;
         }
         
         follow_input.Background = Brushes.LightGreen;
+
+        follow_display.Margin = new Thickness(0, 0, 0, 15);
+
+        Thickness title = new Thickness(0, 0, 0, 15);
+        Thickness field = new Thickness(10, 0, 10, 5);
+
+        follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Following", FontSize = 21 }}, Margin = title});
+        follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Name:"}, new TextBlock() { Text = $"{follow.name}", TextAlignment = TextAlignment.Right }}, Margin = field});
+        follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Color:"}, new TextBlock() { Text = $"{follow.color}", TextAlignment = TextAlignment.Right }}, Margin = field});
+        follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Radius:"}, new TextBlock() { Text = $"{follow.radius * 1000.0:0.0} km", TextAlignment = TextAlignment.Right }}, Margin = field});
+        if (follow.orbit != null) {
+            follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Orbit:"}, new TextBlock() { Text = $"{follow.orbit?.origin.name}", TextAlignment = TextAlignment.Right }}, Margin = field});
+            follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Distance:"}, new TextBlock() { Text = $"{follow.orbit?.distance} Mm", TextAlignment = TextAlignment.Right }}, Margin = field});
+            follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Period:"}, new TextBlock() { Text = $"{follow.orbit?.period} days", TextAlignment = TextAlignment.Right }}, Margin = field});
+        } else {
+            follow_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Orbit:"}, new TextBlock() { Text = "none", TextAlignment = TextAlignment.Right }}, Margin = field});
+        }
+    }
+    
+    private void Selected_Changed(object? sender, PropertyChangedEventArgs e) {
+        if (e.PropertyName != nameof(Properties.select))
+            return;
         
+        selected_display.Children.Clear();
+        selected_display.Margin = new Thickness(10, 0, 10, 0);
+
+        Entity selected = Properties.select;
+
+        if (selected == null)
+            return;
+
+        selected_display.Margin = new Thickness(0, 0, 0, 15);
+
+        Thickness title = new Thickness(0, 0, 0, 15);
+        Thickness field = new Thickness(10, 0, 10, 5);
+
+        selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "At Cursor", FontSize = 21 }}, Margin = title});
+        selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Name:"}, new TextBlock() { Text = $"{selected.name}", TextAlignment = TextAlignment.Right }}, Margin = field});
+        selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Color:"}, new TextBlock() { Text = $"{selected.color}", TextAlignment = TextAlignment.Right }}, Margin = field});
+        selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Radius:"}, new TextBlock() { Text = $"{selected.radius * 1000.0:0.0} km", TextAlignment = TextAlignment.Right }}, Margin = field});
+        if (selected.orbit != null) {
+            selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Orbit:"}, new TextBlock() { Text = $"{selected.orbit?.origin.name}", TextAlignment = TextAlignment.Right }}, Margin = field});
+            selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Distance:"}, new TextBlock() { Text = $"{selected.orbit?.distance} Mm", TextAlignment = TextAlignment.Right }}, Margin = field});
+            selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Period:"}, new TextBlock() { Text = $"{selected.orbit?.period} days", TextAlignment = TextAlignment.Right }}, Margin = field});
+        } else {
+            selected_display.Children.Add(new Grid(){Children = { new TextBlock(){Text = "Orbit:"}, new TextBlock() { Text = "none", TextAlignment = TextAlignment.Right }}, Margin = field});
+        }
+
     }
 }

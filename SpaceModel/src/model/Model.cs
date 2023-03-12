@@ -50,7 +50,7 @@ public class Model {
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
             
-            Debug.WriteLine(row[0]);
+            Debug.WriteLine(row[0] + " " + type);
         }
 
         return model;

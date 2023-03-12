@@ -40,9 +40,9 @@ public struct Orbit {
 
 
 public enum Type {
-    STAR,
-    GAS,
-    HABITABLE,
-    ROCK,
-    ICE
+    Star,
+    Gas,
+    Habitable,
+    Rock,
+    Ice
 }

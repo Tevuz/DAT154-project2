@@ -54,4 +54,8 @@ public struct Vector3d {
     public static Vector3d operator /(Vector3d left, double right) {
         return new Vector3d(left.x / right, left.y / right, left.z / right);
     }
+
+    public double lengthSquared() {
+        return x * x + y * y + z * z;
+    }
 }

@@ -37,27 +37,36 @@ public partial class Simulation : Canvas {
 
     private void OnTick(object? sender, EventArgs e) {
         time += Properties.timeStep * updateInterval;
+
+        Vector3d cursor = ((mouse - new Vector3d(ActualWidth * 0.5, ActualHeight * 0.5, 0.0)) * view.z - view) * new Vector3d(1.0, 1.0, 0.0);
+        (double, Entity) closest = (double.PositiveInfinity, null);
         
         model.ForEach(
             entity => {
                 entity.position = Vector3d.ZERO;
-                if (entity.orbit is not Orbit orbit)
-                    return;
-
-                entity.position = orbit.origin.position;
-                double theta = double.Tau * time / orbit.period;
-                entity.position += new Vector3d(double.Cos(theta), double.Sin(theta), 0.0) * orbit.distance;
+                if (entity.orbit is Orbit orbit) {
+                    entity.position = orbit.origin.position;
+                    double theta = double.Tau * time / orbit.period;
+                    entity.position += new Vector3d(double.Cos(theta), double.Sin(theta), 0.0) * orbit.distance;
+                }
+                
+                double distance = (entity.position - cursor).lengthSquared() - entity.radius;
+                if (distance < closest.Item1) 
+                    closest = (distance, entity);
             });
 
+        if (Properties.select != closest.Item2)
+            Properties.select = closest.Item2;
 
-        if (Properties.follow != null) {
-            Entity? entity = model.findObjectByName(Properties.follow.name);
+        if (Properties.follow.Item1 != null) {
+            Entity? entity = model.findObjectByName(Properties.follow.Item1);
             if (entity != null) {
                 view.x = -entity.position.x;
                 view.y = -entity.position.y;
-                if (Properties.follow != entity)
-                    Properties.follow = entity;
             }
+            
+            if (Properties.follow.Item2 != entity)
+                Properties.follow = (entity.name, entity);
         }
 
         InvalidateVisual();
@@ -100,20 +109,15 @@ public partial class Simulation : Canvas {
         dc.Pop();
     }
 
-    private void Handler_MouseDown(object sender, MouseEventArgs e) {
-        Point point = e.GetPosition(null);
-        mouse = new Vector3d(point.X, point.Y, 0.0);
-    }
-
     private void Handler_MouseMoved(object sender, MouseEventArgs e) {
-        if (e.LeftButton != MouseButtonState.Pressed)
-            return;
 
         Point point = e.GetPosition(null);
         Vector3d next = new(point.X, point.Y, 0.0);
-        view += (next - mouse) * view.z;
+        
+        if (e.LeftButton == MouseButtonState.Pressed)
+            view += (next - mouse) * view.z;
+        
         mouse = next;
-        debug.Text = $"{view.x}, {view.y}, {view.z}";
     }
 
     private void Handle_MouseWheel(object sender, MouseWheelEventArgs e) {
