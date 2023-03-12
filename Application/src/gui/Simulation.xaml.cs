@@ -13,7 +13,8 @@ namespace DAT154_project2.gui;
 public partial class Simulation : Canvas {
     
     private readonly Model model;
-    private float time;
+    private double time;
+    private const double updateInterval = 1.0 / 60.0;
 
     private Vector3d mouse;
     private Vector3d view;
@@ -24,7 +25,7 @@ public partial class Simulation : Canvas {
         model = Model.LoadFromFile("res/Planets.csv");
 
         DispatcherTimer timer = new();
-        timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
+        timer.Interval = TimeSpan.FromSeconds(updateInterval);
         timer.Tick += OnTick;
         timer.Start();
 
