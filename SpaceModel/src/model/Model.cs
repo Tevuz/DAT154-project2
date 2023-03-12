@@ -71,6 +71,9 @@ public class Model {
     }
 
     public Entity? findObjectByName(string name) {
+        if (name == null)
+            return null;
+        
         return objects.TryGetValue(name, out Entity? entity) ? entity : null;
     }
 }
