@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using DAT154_project2.gui.data;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel.math;
 
 namespace DAT154_project2.gui; 
 
 public partial class Simulation : Canvas {
-    
+    public SimulationProperties Properties { get; set; }
+
     private readonly Model model;
     private double time;
     private const double updateInterval = 1.0 / 60.0;
@@ -20,6 +21,8 @@ public partial class Simulation : Canvas {
     private Vector3d view;
 
     public Simulation() {
+        
+        Properties = new SimulationProperties();
         InitializeComponent();
         
         model = Model.LoadFromFile("res/Planets.csv");
@@ -33,18 +36,29 @@ public partial class Simulation : Canvas {
     }
 
     private void OnTick(object? sender, EventArgs e) {
-        time += 1.0f * 7.0f / 60.0f;
+        time += Properties.timeStep * updateInterval;
         
         model.ForEach(
             entity => {
                 entity.position = Vector3d.ZERO;
                 if (entity.orbit is not Orbit orbit)
                     return;
-                
+
                 entity.position = orbit.origin.position;
-                double theta = (orbit.period > 0.0) ? (2.0 * double.Pi * time / orbit.period) : 0.0;
+                double theta = double.Tau * time / orbit.period;
                 entity.position += new Vector3d(double.Cos(theta), double.Sin(theta), 0.0) * orbit.distance;
             });
+
+
+        if (Properties.follow != null) {
+            Entity? entity = model.findObjectByName(Properties.follow.name);
+            if (entity != null) {
+                view.x = -entity.position.x;
+                view.y = -entity.position.y;
+                if (Properties.follow != entity)
+                    Properties.follow = entity;
+            }
+        }
 
         InvalidateVisual();
     }
@@ -54,42 +68,36 @@ public partial class Simulation : Canvas {
 
         dc.PushTransform(new TranslateTransform(ActualWidth * 0.5, ActualHeight * 0.5));
 
+        Pen orbitLine = new(Brushes.Yellow, 1.0f);
+        Pen planetOutline = new(Brushes.White, 1.0f);
+
         model.ForEach(
             entity => {
-                float scale = 0.0f;
-                float size = 2000.0f;
+                Vector3d p = (entity.position + view) / view.z;
+                dc.PushTransform(new TranslateTransform(p.x, p.y));
 
-                double radius = entity.radius / view.z;
-                
-                Vector3d p;
-
-                if (entity.orbit is Orbit orbit) {
-                    p = ((orbit.origin.position + view) / view.z);
-                    dc.DrawEllipse(null, new Pen(Brushes.Yellow, 1.0f), new Point(p.x, p.y), orbit.distance / view.z, orbit.distance / view.z);
+                if (Properties.showOrbits && entity.orbit is Orbit orbit) {
+                    double theta = 360.0 * time / orbit.period;
+                    dc.PushTransform(new RotateTransform(theta));
+                    
+                    double distance = orbit.distance / view.z;
+                    dc.DrawEllipse(null, orbitLine, new Point(-distance, 0.0), distance, distance);
+                    
+                    dc.Pop();
                 }
 
-                p = ((entity.position + view) / view.z);
-                dc.DrawEllipse(new SolidColorBrush((Color) ColorConverter.ConvertFromString(entity.color)), null, new Point(p.x, p.y), radius, radius);
+                double radius = entity.radius / view.z + 1.0f;
+                Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(entity.color));
+                dc.DrawEllipse(brush, null, new Point(0.0, 0.0), radius, radius);
+                brush = null;
                 
-                dc.DrawEllipse(null, new Pen(Brushes.White, 1.0f), new Point(p.x, p.y), radius + 3.0f, radius + 3.0f);
-                /*switch (entity.type) {
-                    case Type.STAR:
-                        dc.DrawEllipse(Brushes.Yellow, null, new Point(pos.X, pos.Y), 6.0, 6.0);
-                        break;
-                    case Type.GAS:
-                        dc.DrawEllipse(Brushes.Green, null, new Point(pos.X, pos.Y), 5.0, 5.0);
-                        break;
-                    case Type.ROCK:
-                        dc.DrawEllipse(Brushes.Gray, null, new Point(pos.X, pos.Y), 4.0, 4.0);
-                        break;
-                    case Type.ICE:
-                        dc.DrawEllipse(Brushes.Blue, null, new Point(pos.X, pos.Y), 3.0, 3.0);
-                        break;
-                    default:
-                        dc.DrawEllipse(Brushes.Gray, null, new Point(pos.X, pos.Y), 2.0, 2.0);
-                        break;
-                }*/
+                if (Properties.showOutline)
+                    dc.DrawEllipse(null, planetOutline, new Point(0.0,0.0), radius + 3.0, radius + 3.0);
+                
+                dc.Pop();
             });
+        
+        dc.Pop();
     }
 
     private void Handler_MouseDown(object sender, MouseEventArgs e) {
@@ -109,13 +117,11 @@ public partial class Simulation : Canvas {
     }
 
     private void Handle_MouseWheel(object sender, MouseWheelEventArgs e) {
+        Point point = e.GetPosition(null);
+        Vector3d next = new(point.X - ActualWidth * 0.5, point.Y - ActualHeight * 0.5, 0.0);
+
+        view -= (next) * view.z;
         view.z *= float.Exp(-e.Delta / 800.0f);
-        debug.Text = $"{view.x}, {view.y}, {view.z}";
+        view += (next) * view.z;
     }
-}
-
-public class SimulationProperties {
-    public Transform transform;
-
-    public float timeStep = 365.0f * 24.0f;
 }
