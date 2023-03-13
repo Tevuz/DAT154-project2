@@ -19,6 +19,16 @@ public class Entity {
     public Entity(string name) {
         this.name = name;
     }
+
+    public void update(double time) {
+        position = Vector3d.ZERO;
+        if (this.orbit is not Orbit orbit)
+            return;
+        
+        position = orbit.origin.position;
+        double theta = double.Tau * time / orbit.period;
+        position += new Vector3d(double.Cos(theta), double.Sin(theta), 0.0) * orbit.distance;
+    }
 }
 
 public struct Orbit {

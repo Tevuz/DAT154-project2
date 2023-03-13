@@ -43,12 +43,7 @@ public partial class Simulation : Canvas {
         
         model.ForEach(
             entity => {
-                entity.position = Vector3d.ZERO;
-                if (entity.orbit is Orbit orbit) {
-                    entity.position = orbit.origin.position;
-                    double theta = double.Tau * time / orbit.period;
-                    entity.position += new Vector3d(double.Cos(theta), double.Sin(theta), 0.0) * orbit.distance;
-                }
+                entity.update(time);
                 
                 double distance = (entity.position - cursor).lengthSquared() - entity.radius;
                 if (distance < closest.Item1) 
