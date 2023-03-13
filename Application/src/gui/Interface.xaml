@@ -5,8 +5,56 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DAT154_project2.gui"
              mc:Ignorable="d"
-             d:DesignHeight="*" d:DesignWidth="200">
-    <Grid Width="200" HorizontalAlignment="Right" Background="#202020">
-        <TextBlock Text="Settings" Foreground="White" Margin="5"/>
+             d:DesignHeight="*" d:DesignWidth="300"
+             FontSize="14"
+             Foreground="White">
+    <Grid Width="300" HorizontalAlignment="Right" Background="#202020">
+        <StackPanel Margin="5">
+            <TextBlock Text="Properties" Foreground="White" FontSize="21" Margin="0 0 0 15"/>
+            
+            <Grid Margin="0 0 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="180"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" TextAlignment="Left" Text="Follow"/>
+                <TextBox Grid.Column="1" Name="follow_input" TextAlignment="Right" Text=""
+                         BorderBrush="White"
+                         TextChanged="Follow_OnTextChanged"/>
+            </Grid>
+            
+            <Grid Margin="0 0 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="115"/>
+                    <ColumnDefinition Width="65"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" TextAlignment="Left" Text="Time Step"/>
+                <TextBox Grid.Column="1" Name="time_input" TextAlignment="Right" Text="1"
+                         PreviewTextInput="Time_TextBox_OnPreviewTextInput"/>
+                <ComboBox Grid.Column="2" Name="time_unit">
+                    <ComboBoxItem Content="Mins" IsSelected="False" Selected="Time_ComboBox_OnSelectionChanged"/>
+                    <ComboBoxItem Content="Hours" IsSelected="False" Selected="Time_ComboBox_OnSelectionChanged"/>
+                    <ComboBoxItem Content="Days" IsSelected="True" Selected="Time_ComboBox_OnSelectionChanged"/>
+                    <ComboBoxItem Content="Years" IsSelected="False" Selected="Time_ComboBox_OnSelectionChanged"/>
+                </ComboBox>
+            </Grid>
+            <Slider Name="time_slider" Margin="0 0 0 15" Maximum="1.0" Ticks="" TickPlacement="BottomRight"
+                    ValueChanged="Time_Slider_OnValueChanged"/>
+            
+            <CheckBox Content="Show Orbit Lines" FontSize="14" Foreground="White" IsChecked="True" Margin="0 0 0 5"
+                      Checked="Orbit_Lines_Checked"
+                      Unchecked="Orbit_Lines_Checked"/>
+            
+            <CheckBox Content="Show Planet Outlines" FontSize="14" Foreground="White" IsChecked="True" Margin="0 0 0 15"
+                      Checked="Planet_Outlines_Checked"
+                      Unchecked="Planet_Outlines_Checked"/>
+            
+            <StackPanel Margin="0 0 0 30">
+                <StackPanel Name="selected_display"/>
+                <StackPanel Name="follow_display"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

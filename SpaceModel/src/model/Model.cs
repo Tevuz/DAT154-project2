@@ -5,8 +5,6 @@ namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
 public class Model {
     private readonly Dictionary<string, Entity> objects;
-    
-    internal float time;
 
     public Model() {
         objects = new Dictionary<string, Entity>();
@@ -19,61 +17,63 @@ public class Model {
         parser.TextFieldType = FieldType.Delimited;
         parser.SetDelimiters(";");
 
+        const int column_name = 0;
+        const int column_orbits = 1;
+        const int column_distance = 2;
+        const int column_period = 3;
+        const int column_radius = 4;
+        const int column_color = 5;
+        const int column_type = 6;
+
+        {
+            // ignore first title line
+            string[] row = parser.ReadFields();
+        }
+
         while (!parser.EndOfData) {
             string[] row = parser.ReadFields();
 
-            string name = row[0];
-
-            // ignore first title line
-            if (string.Equals(name, "Name")) 
+            if (string.IsNullOrEmpty(row[column_name])) 
                 continue;
+            
 
-            if (string.IsNullOrEmpty(name)) 
-                continue;
-
-            Entity parent = model.findObjectByName(row[1]);
-
-            float orbital_distance;
-            if (row[2].Equals("-"))
-                orbital_distance = 0;
-            else
-                orbital_distance = Convert.ToSingle(row[2]);
-
-            float orbital_period;
-            if (row[3].Equals("-"))
-                orbital_period = 0;
-            else
-                orbital_period = Convert.ToSingle(row[3]);
-
-            float radius = Convert.ToSingle(row[4]);
-            string color = row[5];
-
-            Entity entity = new(name, radius, color);
-            entity.orbit = new Orbit { origin = parent, distance = orbital_distance, period = orbital_period };
+            Entity entity = new Entity(row[column_name]) {
+                orbit = Orbit.Of(
+                    model.findObjectByName(row[column_orbits]), 
+                    double.TryParse(row[column_distance], out double distance) ? distance : 0.0, 
+                    double.TryParse(row[column_period], out double period) ? period : 0.0),
+                radius = double.TryParse(row[column_radius], out double radius) ? (radius * 0.001) : 1.0,
+                color = row[column_color],
+                type = Enum.TryParse(row[column_type], out Type type) ? type : null
+            };
 
             if (!model.addObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
             
-            Debug.WriteLine(row[0]);
+            Debug.WriteLine(row[0] + " " + type);
         }
 
         return model;
     }
-    
-    public void OnTick(float time) {
-        this.time = time;
+
+    public void ForEach(Action<Entity> action) {
+        foreach (Entity entity in objects.Values) {
+            action(entity);
+        }
     }
     
     public bool addObject(Entity entity) {
-        entity.model = this;
-        return objects.TryAdd(entity.getName(), entity);
+        return objects.TryAdd(entity.name, entity);
     }
 
     public bool removeObject(Entity entity) {
-        return objects.Remove(entity.getName());
+        return objects.Remove(entity.name);
     }
 
     public Entity? findObjectByName(string name) {
+        if (name == null)
+            return null;
+        
         return objects.TryGetValue(name, out Entity? entity) ? entity : null;
     }
 }

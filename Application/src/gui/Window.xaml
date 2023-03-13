@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <gui:Simulation />
-        <gui:Interface />
-
-        <TextBlock Text="Project setup successful" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        <gui:Simulation x:Name="Simulation"/>
+        <gui:Interface x:Name="Interface" Properties="{Binding Properties, ElementName=Simulation}"/>
     </Grid>
 </Window>

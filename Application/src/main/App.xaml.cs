@@ -8,6 +8,5 @@ namespace DAT154_project2;
 /// </summary>
 public partial class App : Application {
     private void App_Startup(object sender, StartupEventArgs e) {
-        Model.LoadFromFile("Planets.csv");
     }
 }
