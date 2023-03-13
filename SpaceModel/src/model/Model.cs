@@ -17,37 +17,37 @@ public class Model {
         parser.TextFieldType = FieldType.Delimited;
         parser.SetDelimiters(";");
 
-        const int column_name = 0;
-        const int column_orbits = 1;
-        const int column_distance = 2;
-        const int column_period = 3;
-        const int column_radius = 4;
-        const int column_color = 5;
-        const int column_type = 6;
+        const int columnName = 0;
+        const int columnOrbits = 1;
+        const int columnDistance = 2;
+        const int columnPeriod = 3;
+        const int columnRadius = 4;
+        const int columnColor = 5;
+        const int columnType = 6;
 
         {
             // ignore first title line
-            string[] row = parser.ReadFields();
+            parser.ReadFields();
         }
 
         while (!parser.EndOfData) {
-            string[] row = parser.ReadFields();
+            string[]? row = parser.ReadFields();
 
-            if (string.IsNullOrEmpty(row[column_name])) 
+            if (row == null || string.IsNullOrEmpty(row[columnName])) 
                 continue;
             
 
-            Entity entity = new Entity(row[column_name]) {
-                orbit = Orbit.Of(
-                    model.findObjectByName(row[column_orbits]), 
-                    double.TryParse(row[column_distance], out double distance) ? distance : 0.0, 
-                    double.TryParse(row[column_period], out double period) ? period : 0.0),
-                radius = double.TryParse(row[column_radius], out double radius) ? (radius * 0.001) : 1.0,
-                color = row[column_color],
-                type = Enum.TryParse(row[column_type], out Type type) ? type : null
+            Entity entity = new Entity(row[columnName]) {
+                Orbit = Orbit.Of(
+                    model.FindObjectByName(row[columnOrbits]), 
+                    double.TryParse(row[columnDistance], out double distance) ? distance : 0.0, 
+                    double.TryParse(row[columnPeriod], out double period) ? period : 0.0),
+                Radius = double.TryParse(row[columnRadius], out double radius) ? (radius * 0.001) : 1.0,
+                Color = row[columnColor],
+                Type = Enum.TryParse(row[columnType], out Type type) ? type : null
             };
 
-            if (!model.addObject(entity)) 
+            if (!model.AddObject(entity)) 
                 throw new InvalidOperationException("Possible duplicate in csv file! Could not parse the file!");
             
             Debug.WriteLine(row[0] + " " + type);
@@ -62,18 +62,15 @@ public class Model {
         }
     }
     
-    public bool addObject(Entity entity) {
-        return objects.TryAdd(entity.name, entity);
+    public bool AddObject(Entity entity) {
+        return objects.TryAdd(entity.Name, entity);
     }
 
-    public bool removeObject(Entity entity) {
-        return objects.Remove(entity.name);
+    public bool RemoveObject(Entity entity) {
+        return objects.Remove(entity.Name);
     }
 
-    public Entity? findObjectByName(string name) {
-        if (name == null)
-            return null;
-        
-        return objects.TryGetValue(name, out Entity? entity) ? entity : null;
+    public Entity? FindObjectByName(string? name) {
+        return objects.TryGetValue(name ?? "", out Entity? entity) ? entity : null;
     }
 }

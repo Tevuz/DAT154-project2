@@ -43,9 +43,9 @@ public partial class Simulation : Canvas {
         
         model.ForEach(
             entity => {
-                entity.update(time);
+                entity.Update(time);
                 
-                double distance = (entity.position - cursor).lengthSquared() - entity.radius;
+                double distance = (entity.Position - cursor).lengthSquared() - entity.Radius;
                 if (distance < closest.Item1) 
                     closest = (distance, entity);
             });
@@ -54,14 +54,14 @@ public partial class Simulation : Canvas {
             Properties.selected = closest.Item2;
 
         if (string.IsNullOrEmpty(Properties.follow.Item1)) {
-            Entity? entity = model.findObjectByName(Properties.follow.Item1);
+            Entity? entity = model.FindObjectByName(Properties.follow.Item1);
             if (entity != null) {
-                view.x = -entity.position.x;
-                view.y = -entity.position.y;
+                view.x = -entity.Position.x;
+                view.y = -entity.Position.y;
             }
             
             if (Properties.follow.Item2 != entity)
-                Properties.follow = (entity?.name ?? "", entity);
+                Properties.follow = (entity?.Name ?? "", entity);
         }
 
         InvalidateVisual();
@@ -72,34 +72,34 @@ public partial class Simulation : Canvas {
 
         dc.PushTransform(new TranslateTransform(ActualWidth * 0.5, ActualHeight * 0.5));
         
-        model.ForEach(entity => render(dc, entity) );
+        model.ForEach(entity => Render(dc, entity) );
         
         dc.Pop();
     }
 
-    private static readonly Pen orbitLine = new(Brushes.Yellow, 1.0f);
-    private static readonly Pen planetOutline = new(Brushes.White, 1.0f);
+    private static readonly Pen OrbitLine = new(Brushes.Yellow, 1.0f);
+    private static readonly Pen PlanetOutline = new(Brushes.White, 1.0f);
     
-    private void render(DrawingContext dc, Entity entity) {
-        Vector3d p = (entity.position + view) / view.z;
+    private void Render(DrawingContext dc, Entity entity) {
+        Vector3d p = (entity.Position + view) / view.z;
         dc.PushTransform(new TranslateTransform(p.x, p.y));
 
-        if (Properties.showOrbits && entity.orbit is Orbit orbit) {
-            double theta = 360.0 * time / orbit.period;
+        if (Properties.showOrbits && entity.Orbit is Orbit orbit) {
+            double theta = 360.0 * time / orbit.Period;
             dc.PushTransform(new RotateTransform(theta));
                     
-            double distance = orbit.distance / view.z;
-            dc.DrawEllipse(null, orbitLine, new Point(-distance, 0.0), distance, distance);
+            double distance = orbit.Distance / view.z;
+            dc.DrawEllipse(null, OrbitLine, new Point(-distance, 0.0), distance, distance);
                     
             dc.Pop();
         }
 
-        double radius = entity.radius / view.z + 1.0f;
-        Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(entity.color));
+        double radius = entity.Radius / view.z + 1.0f;
+        Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(entity.Color));
         dc.DrawEllipse(brush, null, new Point(0.0, 0.0), radius, radius);
                 
         if (Properties.showOutline)
-            dc.DrawEllipse(null, planetOutline, new Point(0.0,0.0), radius + 3.0, radius + 3.0);
+            dc.DrawEllipse(null, PlanetOutline, new Point(0.0,0.0), radius + 3.0, radius + 3.0);
                 
         dc.Pop();
     }
