@@ -39,7 +39,7 @@ public partial class Simulation : Canvas {
         time += Properties.timeStep * updateInterval;
 
         Vector3d cursor = ((mouse - new Vector3d(ActualWidth * 0.5, ActualHeight * 0.5, 0.0)) * view.z - view) * new Vector3d(1.0, 1.0, 0.0);
-        (double, Entity) closest = (double.PositiveInfinity, null);
+        (double, Entity?) closest = (double.PositiveInfinity, null);
         
         model.ForEach(
             entity => {
@@ -55,8 +55,8 @@ public partial class Simulation : Canvas {
                     closest = (distance, entity);
             });
 
-        if (Properties.select != closest.Item2)
-            Properties.select = closest.Item2;
+        if (Properties.selected != closest.Item2)
+            Properties.selected = closest.Item2;
 
         if (Properties.follow.Item1 != null) {
             Entity? entity = model.findObjectByName(Properties.follow.Item1);
@@ -66,7 +66,7 @@ public partial class Simulation : Canvas {
             }
             
             if (Properties.follow.Item2 != entity)
-                Properties.follow = (entity.name, entity);
+                Properties.follow = (entity?.name ?? "", entity);
         }
 
         InvalidateVisual();
@@ -98,7 +98,6 @@ public partial class Simulation : Canvas {
                 double radius = entity.radius / view.z + 1.0f;
                 Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(entity.color));
                 dc.DrawEllipse(brush, null, new Point(0.0, 0.0), radius, radius);
-                brush = null;
                 
                 if (Properties.showOutline)
                     dc.DrawEllipse(null, planetOutline, new Point(0.0,0.0), radius + 3.0, radius + 3.0);

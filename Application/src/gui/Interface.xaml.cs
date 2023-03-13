@@ -52,7 +52,8 @@ public partial class Interface : UserControl {
             0 => value / 24.0 / 60.0,
             1 => value / 24.0,
             2 => value,
-            3 => value * 365.0
+            3 => value * 365.0,
+            _ => 0.0
         };
         
         value = Properties.timeStep * 24.0 * 60.0;
@@ -159,7 +160,7 @@ public partial class Interface : UserControl {
         if (Properties == null)
             return;
         
-        Properties.showOrbits = box.IsChecked.Value;
+        Properties.showOrbits = box.IsChecked ?? false;
     }
     
     private void Planet_Outlines_Checked(object sender, RoutedEventArgs e) {
@@ -169,7 +170,7 @@ public partial class Interface : UserControl {
         if (Properties == null)
             return;
         
-        Properties.showOutline = box.IsChecked.Value;
+        Properties.showOutline = box.IsChecked ?? false;
     }
 
     private void Follow_OnTextChanged(object sender, TextChangedEventArgs e) {
@@ -194,7 +195,7 @@ public partial class Interface : UserControl {
             return;
         }
         
-        Entity follow = Properties.follow.Item2;
+        Entity? follow = Properties.follow.Item2;
         
         if (follow == null) {
             follow_input.Background = Brushes.LightCoral;
@@ -222,13 +223,13 @@ public partial class Interface : UserControl {
     }
     
     private void Selected_Changed(object? sender, PropertyChangedEventArgs e) {
-        if (e.PropertyName != nameof(Properties.select))
+        if (e.PropertyName != nameof(Properties.selected))
             return;
         
         selected_display.Children.Clear();
         selected_display.Margin = new Thickness(10, 0, 10, 0);
 
-        Entity selected = Properties.select;
+        Entity? selected = Properties.selected;
 
         if (selected == null)
             return;
