@@ -32,7 +32,7 @@ public partial class Simulation : Canvas {
         timer.Tick += OnTick;
         timer.Start();
 
-        view = Vector3d.UNIT_Z;
+        view = Vector3d.UNIT_Z * 5000.0;
     }
     
     private void OnTick(object? sender, EventArgs e) {
