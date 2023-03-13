@@ -14,7 +14,7 @@ public class Entity {
 
     public Vector3d Position;
 
-    public Entity(string? name) {
+    public Entity(string name) {
         Name = name;
         Color = "white";
         Position = Vector3d.ZERO;
