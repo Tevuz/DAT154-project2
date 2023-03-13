@@ -15,10 +15,10 @@ public class SimulationProperties : INotifyPropertyChanged {
     private bool _showOutline = true;
     public bool showOutline { get => _showOutline; set => SetField(ref _showOutline, value); }
     
-    private (string, Entity?) _follow;
+    private (string, Entity?) _follow = ("", null);
     public (string, Entity?) follow { get => _follow; set => SetField(ref _follow, value); }
     
-    private Entity? _selected;
+    private Entity? _selected = null;
     public Entity? selected { get => _selected; set => SetField(ref _selected, value); }
     
 
