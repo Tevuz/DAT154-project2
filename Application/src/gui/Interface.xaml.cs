@@ -6,7 +6,7 @@ using System.Windows.Media;
 using DAT154_project2.gui.data;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
 
-namespace DAT154_project2.gui;
+namespace no.hvl.DAT154.V23.GROUP14.Application.gui;
 
 public partial class Interface : UserControl {
 

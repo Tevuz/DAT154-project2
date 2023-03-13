@@ -1,4 +1,4 @@
-﻿<Canvas x:Class="DAT154_project2.gui.Simulation"
+﻿<Canvas x:Class="no.hvl.DAT154.V23.GROUP14.Application.gui.Simulation"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

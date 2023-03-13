@@ -8,7 +8,7 @@ using DAT154_project2.gui.data;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel.math;
 
-namespace DAT154_project2.gui; 
+namespace no.hvl.DAT154.V23.GROUP14.Application.gui; 
 
 public partial class Simulation : Canvas {
     public SimulationProperties Properties { get; set; }
@@ -34,7 +34,7 @@ public partial class Simulation : Canvas {
 
         view = Vector3d.UNIT_Z;
     }
-
+    
     private void OnTick(object? sender, EventArgs e) {
         time += Properties.timeStep * updateInterval;
 

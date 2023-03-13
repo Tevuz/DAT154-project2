@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DAT154_project2;
+namespace no.hvl.DAT154.V23.GROUP14.Application;
 
 /// <summary>
 ///     Interaction logic for MainWindow.xaml
