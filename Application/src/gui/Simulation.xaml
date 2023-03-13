@@ -9,5 +9,4 @@
              Background="Black"
              MouseMove="Handler_MouseMoved"
              MouseWheel="Handle_MouseWheel">
-    <TextBlock Name="debug" Foreground="White" Text="test"/>
 </Canvas>
