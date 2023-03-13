@@ -53,7 +53,7 @@ public partial class Simulation : Canvas {
         if (Properties.selected != closest.Item2)
             Properties.selected = closest.Item2;
 
-        if (string.IsNullOrEmpty(Properties.follow.Item1)) {
+        if (!string.IsNullOrEmpty(Properties.follow.Item1)) {
             Entity? entity = model.FindObjectByName(Properties.follow.Item1);
             if (entity != null) {
                 view.x = -entity.Position.x;
