@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
-        <RootNamespace>DAT154_project2</RootNamespace>
+        <RootNamespace>no.hvl.DAT154.V23.GROUP14.Application</RootNamespace>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
     </PropertyGroup>
@@ -26,14 +26,16 @@
       </Page>
     </ItemGroup>
 
-    <ItemGroup>
+    <!--ItemGroup>
         <None Remove="res\Planets.csv" />
+    </ItemGroup-->
+    
+    <ItemGroup>
+        <Content Include="res\Planets.csv" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="res\Planets.csv">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+    <!--ItemGroup>
+        <EmbeddedResource Include="res\Planets.csv"/>
+    </ItemGroup-->
 
 </Project>
