@@ -76,35 +76,36 @@ public partial class Simulation : Canvas {
         base.OnRender(dc);
 
         dc.PushTransform(new TranslateTransform(ActualWidth * 0.5, ActualHeight * 0.5));
-
-        Pen orbitLine = new(Brushes.Yellow, 1.0f);
-        Pen planetOutline = new(Brushes.White, 1.0f);
-
-        model.ForEach(
-            entity => {
-                Vector3d p = (entity.position + view) / view.z;
-                dc.PushTransform(new TranslateTransform(p.x, p.y));
-
-                if (Properties.showOrbits && entity.orbit is Orbit orbit) {
-                    double theta = 360.0 * time / orbit.period;
-                    dc.PushTransform(new RotateTransform(theta));
-                    
-                    double distance = orbit.distance / view.z;
-                    dc.DrawEllipse(null, orbitLine, new Point(-distance, 0.0), distance, distance);
-                    
-                    dc.Pop();
-                }
-
-                double radius = entity.radius / view.z + 1.0f;
-                Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(entity.color));
-                dc.DrawEllipse(brush, null, new Point(0.0, 0.0), radius, radius);
-                
-                if (Properties.showOutline)
-                    dc.DrawEllipse(null, planetOutline, new Point(0.0,0.0), radius + 3.0, radius + 3.0);
-                
-                dc.Pop();
-            });
         
+        model.ForEach(entity => render(dc, entity) );
+        
+        dc.Pop();
+    }
+
+    private static readonly Pen orbitLine = new(Brushes.Yellow, 1.0f);
+    private static readonly Pen planetOutline = new(Brushes.White, 1.0f);
+    
+    private void render(DrawingContext dc, Entity entity) {
+        Vector3d p = (entity.position + view) / view.z;
+        dc.PushTransform(new TranslateTransform(p.x, p.y));
+
+        if (Properties.showOrbits && entity.orbit is Orbit orbit) {
+            double theta = 360.0 * time / orbit.period;
+            dc.PushTransform(new RotateTransform(theta));
+                    
+            double distance = orbit.distance / view.z;
+            dc.DrawEllipse(null, orbitLine, new Point(-distance, 0.0), distance, distance);
+                    
+            dc.Pop();
+        }
+
+        double radius = entity.radius / view.z + 1.0f;
+        Brush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(entity.color));
+        dc.DrawEllipse(brush, null, new Point(0.0, 0.0), radius, radius);
+                
+        if (Properties.showOutline)
+            dc.DrawEllipse(null, planetOutline, new Point(0.0,0.0), radius + 3.0, radius + 3.0);
+                
         dc.Pop();
     }
 
