@@ -15,7 +15,7 @@ public partial class Simulation : Canvas {
 
     private readonly Model model;
     private double time;
-    private const double updateInterval = 1.0 / 60.0;
+    private const double UpdateInterval = 1.0 / 60.0;
 
     private Vector3d mouse;
     private Vector3d view;
@@ -28,7 +28,7 @@ public partial class Simulation : Canvas {
         model = Model.LoadFromFile("res/Planets.csv");
 
         DispatcherTimer timer = new();
-        timer.Interval = TimeSpan.FromSeconds(updateInterval);
+        timer.Interval = TimeSpan.FromSeconds(UpdateInterval);
         timer.Tick += OnTick;
         timer.Start();
 
@@ -36,7 +36,7 @@ public partial class Simulation : Canvas {
     }
     
     private void OnTick(object? sender, EventArgs e) {
-        time += Properties.timeStep * updateInterval;
+        time += Properties.timeStep * UpdateInterval;
 
         Vector3d cursor = ((mouse - new Vector3d(ActualWidth * 0.5, ActualHeight * 0.5, 0.0)) * view.z - view) * new Vector3d(1.0, 1.0, 0.0);
         (double, Entity?) closest = (double.PositiveInfinity, null);
