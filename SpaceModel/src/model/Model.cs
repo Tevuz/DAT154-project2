@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using Microsoft.VisualBasic.FileIO;
 
 namespace no.hvl.DAT154.V23.GROUP14.SpaceModel;
@@ -36,13 +37,12 @@ public class Model {
             if (row == null || string.IsNullOrEmpty(row[columnName])) 
                 continue;
             
-
             Entity entity = new Entity(row[columnName]) {
                 Orbit = Orbit.Of(
                     model.FindObjectByName(row[columnOrbits]), 
-                    double.TryParse(row[columnDistance], out double distance) ? distance : 0.0, 
-                    double.TryParse(row[columnPeriod], out double period) ? period : 0.0),
-                Radius = double.TryParse(row[columnRadius], out double radius) ? (radius * 0.001) : 1.0,
+                    parseDouble(row[columnDistance]), 
+                    parseDouble(row[columnPeriod])),
+                Radius = parseDouble(row[columnRadius]),
                 Color = row[columnColor],
                 Type = Enum.TryParse(row[columnType], out Type type) ? type : null
             };
@@ -54,6 +54,10 @@ public class Model {
         }
 
         return model;
+    }
+
+    private static double parseDouble(string text, double fallback = 0.0) {
+        return double.TryParse(text, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out double d) ? d : fallback;
     }
 
     public void ForEach(Action<Entity> action) {
