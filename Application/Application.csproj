@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
-        <RootNamespace>DAT154_project2</RootNamespace>
+        <RootNamespace>no.hvl.DAT154.V23.GROUP14.Application</RootNamespace>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
     </PropertyGroup>
@@ -13,27 +13,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ApplicationDefinition Include="src\main\App.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <XamlRuntime>Wpf</XamlRuntime>
-        <SubType>Designer</SubType>
-      </ApplicationDefinition>
+        <ApplicationDefinition Include="src\main\App.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </ApplicationDefinition>
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="src\gui\Window.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
+        <Page Update="src\gui\Window.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="res\Planets.csv" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="res\Planets.csv">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        <Content Include="res\Planets.csv" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 
 </Project>
