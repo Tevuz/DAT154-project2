@@ -8,7 +8,7 @@
              d:DesignHeight="*" d:DesignWidth="*"
              FontSize="14"
              Foreground="White">
-    <Grid MinWidth="300" Background="#202020">
+    <ScrollViewer MinWidth="300" Background="#202020">
         <StackPanel Margin="5">
             <TextBlock Text="Properties" Foreground="White" FontSize="21" Margin="0 0 0 15"/>
             
@@ -61,5 +61,5 @@
                 <StackPanel Name="follow_display"/>
             </StackPanel>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </UserControl>
