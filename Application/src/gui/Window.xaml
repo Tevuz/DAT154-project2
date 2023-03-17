@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <gui:Simulation x:Name="Simulation"/>
-        <gui:Interface x:Name="Interface" Properties="{Binding Properties, ElementName=Simulation}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <gui:Simulation Grid.Column="0" x:Name="Simulation"/>
+        <gui:Interface Grid.Column="1" x:Name="Interface" Properties="{Binding Properties, ElementName=Simulation}"/>
     </Grid>
 </Window>
