@@ -42,7 +42,7 @@ public class Model {
                     model.FindObjectByName(row[columnOrbits]), 
                     parseDouble(row[columnDistance]), 
                     parseDouble(row[columnPeriod])),
-                Radius = parseDouble(row[columnRadius]),
+                Radius = parseDouble(row[columnRadius]) * 0.001,
                 Color = row[columnColor],
                 Type = Enum.TryParse(row[columnType], out Type type) ? type : null
             };

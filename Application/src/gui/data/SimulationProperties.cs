@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using no.hvl.DAT154.V23.GROUP14.SpaceModel;
@@ -20,10 +22,11 @@ public class SimulationProperties : INotifyPropertyChanged {
     
     private Entity? _selected = null;
     public Entity? selected { get => _selected; set => SetField(ref _selected, value); }
-    
 
+    private ObservableCollection<string> _names = new ObservableCollection<string>();
+    public ObservableCollection<string> names { get => _names; private set => SetField(ref _names, value); }
+    
     public SimulationProperties() {
-        Debug.WriteLine($"Setting ");
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

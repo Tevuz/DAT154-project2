@@ -33,6 +33,8 @@ public partial class Simulation : Canvas {
         timer.Start();
 
         view = Vector3d.UNIT_Z * 5000.0;
+        
+        model.ForEach(entity => Properties.names.Add(entity.Name));
     }
     
     private void OnTick(object? sender, EventArgs e) {
