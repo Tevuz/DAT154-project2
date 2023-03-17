@@ -19,9 +19,14 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Grid.Column="0" TextAlignment="Left" Text="Follow"/>
-                <TextBox Grid.Column="1" Name="follow_input" TextAlignment="Right" Text=""
-                         BorderBrush="White"
-                         TextChanged="Follow_OnTextChanged"/>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <TextBox Name="follow_input" TextAlignment="Left" Text=""
+                             TextChanged="Follow_OnTextChanged"/>
+                    <Popup Name="follow_suggestion_popup" Visibility="Collapsed" Height="100" StaysOpen="False" Placement="Bottom">
+                        <ListBox Name="follow_suggestion" HorizontalAlignment="Stretch" SelectionChanged="Follow_OnSelectionChanged">
+                        </ListBox>
+                    </Popup>
+                </StackPanel>
             </Grid>
             
             <Grid Margin="0 0 0 5">

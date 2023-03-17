@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -190,7 +191,30 @@ public partial class Interface : UserControl {
         if (Properties == null)
             return;
         
-        Properties.follow = (box.Text, null);
+        Follow_setSuggestionBoxOpen(!string.IsNullOrEmpty(box.Text));
+
+        var suggestions = Properties.names.Where(e => e.ToLower().Contains(box.Text.ToLower().TrimStart())).ToList();
+        follow_suggestion.ItemsSource = suggestions;
+        
+        Properties.follow = (box.Text.TrimStart(), null);
+    }
+
+    private void Follow_setSuggestionBoxOpen(bool open) {
+        follow_suggestion.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
+        follow_suggestion_popup.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
+        follow_suggestion_popup.IsOpen = open;
+
+        follow_suggestion_popup.Width = follow_input.ActualWidth;
+    }
+
+    private void Follow_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        Follow_setSuggestionBoxOpen(false);
+        
+        if (follow_suggestion.SelectedIndex <= -1)
+            return;
+
+        follow_input.Text = follow_suggestion.SelectedItem.ToString();
+        follow_suggestion.SelectedIndex = -1;
     }
     
     private void Follow_Changed(object? sender, PropertyChangedEventArgs e) {
@@ -214,6 +238,8 @@ public partial class Interface : UserControl {
             follow_input.Background = Brushes.LightCoral;
             return;
         }
+        
+        Follow_setSuggestionBoxOpen(false);
         
         follow_input.Background = Brushes.LightGreen;
 
